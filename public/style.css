@@ -1,0 +1,39 @@
+body{
+  overflow: hidden;
+  margin: 0;
+  border: 0;
+  padding: 0;
+
+}
+
+.bubbleRow{
+  max-height: 50px;
+  overflow: hidden;
+}
+
+.bubble{
+  background-image:url('images/not-burst.jpg');
+  background-size: 100% 100%;
+  width:50px;
+  height: 50px;
+  display: inline-block;
+}
+
+
+.bubble-burst{
+  background-size: 100% 100%;
+  width:50px;
+  height: 50px;
+  display: inline-block;
+}
+
+.burst-1{
+  background-image:url('images/burst-1.jpg');
+}
+
+.burst-2{
+  background-image:url('images/burst-2.jpg');
+}
+.burst-3{
+  background-image:url('images/burst-3.jpg');
+}
