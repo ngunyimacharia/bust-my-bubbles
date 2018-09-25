@@ -34,3 +34,7 @@ body{
 .burst-3{
   background-image:url('images/burst-3.jpg');
 }
+
+.hidden{
+  display: none;
+}
