@@ -1,26 +1,54 @@
-// first get the size from the window
-// if that didn't work, get it from the body
+/**
+Function to obtain and set the necessary dimensions.
+Obtain the following values:
+- bubblesOnWidth
+- bubblesOnHeight
+- bubbleWidth
+*/
+let bubblesOnWidth;
+let bubblesOnHeight;
+let bubbleWidth;
 
-let deviceDimensions = {
-  width: screen.width,
-  height: screen.height
-};
+function setDimensions(){
+  let allDimensions = {
+    minWidth:getLowestInArray([screen.width,window.innerWidth,document.body.clientWidth]),
+    minHeight:getLowestInArray([screen.height,window.innerHeight,document.body.clientHeigh])
+  };
 
-let size = {
-  width: window.innerWidth || document.body.clientWidth,
-  height: window.innerHeight || document.body.clientHeight
-}
-
-let bubblesOnWidth = parseInt(deviceDimensions.width / 50);
-let bubblesOnHeight = parseInt(deviceDimensions.height / 50);
-
-let bubbleDimensions = {
-  width: parseInt(size.width / bubblesOnWidth),
-  height: parseInt(size.height / bubblesOnHeight)
+  bubblesOnWidth = parseInt(allDimensions.minWidth / 50);
+  bubblesOnHeight = parseInt(allDimensions.minHeight / 50);
+  bubbleWidth = parseInt(allDimensions.minWidth / bubblesOnWidth);
 }
 
 let containerName = "container";
 let container = document.getElementById(containerName);
+// Function to insert bubbles into the page
+function insertBubbles(){
+
+  for(let h = 1 ; h <= bubblesOnHeight; h++ ){
+    var row = document.createElement('div');
+    for(let c = 1; c <= bubblesOnWidth ; c++){
+      var column = document.createElement('div');
+      column.className = 'bubble';
+      column.id = 'bubble-'+c;
+      column.addEventListener('click',bubbleClick);
+      //Set column dimensions
+      column.style.width = bubbleWidth+"px";
+      column.style.height = bubbleWidth+"px";
+      row.append(column);
+    }
+    row.className += 'bubbleRow';
+    //Set row dimensions
+    row.style.height = bubbleWidth+"px";
+    container.append(row);
+  }
+}
+
+//Function to initialize
+(function(){
+  setDimensions();
+  insertBubbles();
+})();
 
 //Function to be triggered on bubble click
 function bubbleClick(event){
@@ -35,30 +63,25 @@ function bubbleClick(event){
   },100);
 }
 
-//Play sound
+//Function to play sound
 function play(){
   var audio = document.getElementById("audio");
   if (audio.paused) {
-      audio.play();
+    audio.play();
   }else{
-      audio.currentTime = 0
+    audio.currentTime = 0
   }
 }
 
-for(let h = 1 ; h <= bubblesOnHeight; h++ ){
-  var row = document.createElement('div');
-  for(let c = 1; c <= bubblesOnWidth ; c++){
-    var column = document.createElement('div');
-    column.className = 'bubble';
-    column.id = 'bubble-'+c;
-    column.addEventListener('click',bubbleClick);
-    //Set column dimensions
-    column.style.width = bubbleDimensions.width+"px";
-    column.style.height = bubbleDimensions.width+"px";
-    row.append(column);
+//Function to get lowest element in array
+function getLowestInArray(myArray){
+  let lowest = 0;
+  for(let i=0 ; i<=myArray.length ; i++){
+
+    if( (myArray[i] < lowest && myArray[i] > 0) || (lowest == 0) ){
+      lowest = myArray[i];
+    }
+
   }
-  row.className += 'bubbleRow';
-  //Set row dimensions
-  row.style.height = bubbleDimensions.width+"px";
-  container.append(row);
+  return lowest;
 }
